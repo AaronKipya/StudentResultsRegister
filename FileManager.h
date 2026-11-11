@@ -7,6 +7,9 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
+#include <exception>
+
 #include "Student.h"
 #include "DynamicArray.h"
 
@@ -20,7 +23,8 @@ public:
         std::ifstream file(filename);
 
         if (!file.is_open()) {
-            std::cerr << "Error: Cannot open " << filename << "\n";
+            std::cerr << "Error: Cannot open "
+                      << filename << "\n";
             return false;
         }
 
@@ -36,26 +40,50 @@ public:
             if (!std::getline(ss, idText, '|') ||
                 !std::getline(ss, name, '|') ||
                 !std::getline(ss, scoreText)) {
-                std::cerr << "Invalid record: " << line << "\n";
+                std::cerr << "Invalid record: "
+                          << line << "\n";
                 return false;
             }
 
             try {
-                std::size_t idPos = 0, scorePos = 0;
-                int id = std::stoi(idText, &idPos);
-                double score = std::stod(scoreText, &scorePos);
+                std::size_t idPos = 0;
+                std::size_t scorePos = 0;
 
+                int id = std::stoi(idText, &idPos);
+                double score =
+                    std::stod(scoreText, &scorePos);
+
+                // Validate ID, name, and score
                 if (idPos != idText.size() ||
                     scorePos != scoreText.size() ||
-                    id <= 0 || name.empty() ||
-                    score < 0 || score > 100) {
+                    id <= 0 ||
+                    name.empty() ||
+                    !std::isfinite(score) ||
+                    score < 0 ||
+                    score > 100) {
+
+                    std::cerr << "Invalid record: "
+                              << line << "\n";
                     return false;
+                }
+
+                // Check for duplicate student IDs
+                for (std::size_t i = 0;
+                     i < loaded.getSize(); ++i) {
+
+                    if (loaded.get(i).studentID == id) {
+                        std::cerr
+                            << "Duplicate student ID: "
+                            << id << "\n";
+                        return false;
+                    }
                 }
 
                 loaded.add({id, name, score});
             }
             catch (const std::exception&) {
-                std::cerr << "Invalid record: " << line << "\n";
+                std::cerr << "Invalid record: "
+                          << line << "\n";
                 return false;
             }
         }
@@ -76,13 +104,16 @@ public:
         std::ofstream file(filename);
 
         if (!file.is_open()) {
-            std::cerr << "Error: Cannot write to " << filename << "\n";
+            std::cerr << "Error: Cannot write to "
+                      << filename << "\n";
             return false;
         }
 
         file << std::fixed << std::setprecision(1);
 
-        for (std::size_t i = 0; i < students.getSize(); ++i) {
+        for (std::size_t i = 0;
+             i < students.getSize(); ++i) {
+
             const Student& s = students.get(i);
 
             file << s.studentID << "|"
