@@ -1,0 +1,10 @@
+101|John|78.5
+102|Mary|85.0
+103|Peter|75.0
+104|Sarah|91.0
+105|David|73.0
+106|Grace|88.5
+107|Daniel|65.0
+108|Esther|94.0
+109|Michael|77.5
+110|Rebecca|82.0

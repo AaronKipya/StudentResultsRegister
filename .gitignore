@@ -1,0 +1,17 @@
+
+# Compiled C++ programs
+*.exe
+*.o
+*.obj
+
+# Debugging and temporary files
+*.log
+*.tmp
+*.stackdump
+
+# VS Code local settings
+.vscode/
+
+# Operating system files
+Thumbs.db
+.DS_Store
