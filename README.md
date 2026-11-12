@@ -3,7 +3,7 @@
 
 **Institution:** Victoria University, Kampala  
 **Programme:** Bachelor of Computer Science  
-**Student Name:** Aaron Kipya  
+**Student Name:** Aaron Sseruyigo  
 **Registration Number:** VU-BCS-2507-1211-EVE  
 **Programming Language:** C++17  
 **Project Repository:** https://github.com/AaronKipya/StudentResultsRegister
